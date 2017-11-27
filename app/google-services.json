@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "854329246075",
+    "firebase_url": "https://aplikacjazarzadca.firebaseio.com",
+    "project_id": "aplikacjazarzadca",
+    "storage_bucket": "aplikacjazarzadca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854329246075:android:d56f62faa95d6809",
+        "android_client_info": {
+          "package_name": "com.example.marcin.aplikacja_inzynierska"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854329246075-1jbff7ao3ccnfd8vrcuapm8n4rqii207.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marcin.aplikacja_inzynierska",
+            "certificate_hash": "3c3dc4bf946941fee9e1d834eb3c22b24994d59a"
+          }
+        },
+        {
+          "client_id": "854329246075-212nsjbshfl70faqbpub5q94hi9rouo2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALkgr-S1x2bJhU6TCBcKde__BXPsttqQk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854329246075-212nsjbshfl70faqbpub5q94hi9rouo2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
