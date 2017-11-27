@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Aplikacja_Inzynierska</string>
+    <string name="labelmenuglowne">Menu Główne</string>
+    <string name="buttondodajrezerwacje">Dodaj rezerwacje</string>
+    <string name="buttonwyszukajrezerwacje">Wyszukaj rezerwacje</string>
+    <string name="hintImie">Wpisz Imię</string>
+    <string name="hintNazwisko">Wpisz Nazwisko</string>
+    <string name="editNumerTel">Podaj Numer Telefonu</string>
+    <string name="buttonkrok1">Dalej</string>
 </resources>
