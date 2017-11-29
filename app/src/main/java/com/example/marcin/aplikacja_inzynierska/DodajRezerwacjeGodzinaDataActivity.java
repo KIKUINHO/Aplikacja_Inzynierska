@@ -1,11 +1,14 @@
 package com.example.marcin.aplikacja_inzynierska;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,7 +32,7 @@ public class DodajRezerwacjeGodzinaDataActivity extends AppCompatActivity {
                 mojKalendarz.set(Calendar.MONTH, monthOfYear);
                 mojKalendarz.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String myFormat = "dd/MMM/yyyy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ROOT);
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
 
                 date.setText(sdf.format(mojKalendarz.getTime()));
 
@@ -44,6 +47,30 @@ public class DodajRezerwacjeGodzinaDataActivity extends AppCompatActivity {
                         mojKalendarz.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        final EditText pokazgodzine = (EditText) findViewById(R.id.czas);
+        pokazgodzine.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(DodajRezerwacjeGodzinaDataActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        pokazgodzine.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Wybierz godzinę");
+                mTimePicker.show();
+
+            }
+        });
+
 
     }
 }
