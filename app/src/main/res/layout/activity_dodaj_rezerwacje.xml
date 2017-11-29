@@ -45,16 +45,44 @@
         app:layout_constraintStart_toStartOf="@+id/editNazwisko"
         app:layout_constraintTop_toBottomOf="@+id/editNazwisko" />
 
+    <EditText
+        android:id="@+id/czas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/hintczas"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="@+id/data"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/data"
+        app:layout_constraintTop_toBottomOf="@+id/data" />
+
+    <EditText
+        android:id="@+id/data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/hintdata"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="@+id/editNumerTel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editNumerTel"
+        app:layout_constraintTop_toBottomOf="@+id/editNumerTel" />
+
     <Button
         android:id="@+id/buttonkrok1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="64dp"
         android:text="@string/buttonkrok1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNumerTel" />
+        tools:layout_editor_absoluteY="429dp" />
 
 </android.support.constraint.ConstraintLayout>

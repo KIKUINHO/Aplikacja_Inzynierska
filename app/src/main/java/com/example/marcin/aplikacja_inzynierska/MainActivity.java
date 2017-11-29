@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         dodajgodzinedate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DodajRezerwacjeGodzinaDataActivity.class);
+                Intent i = new Intent(getApplicationContext(), DodajRezerwacjeActivity.class);
                 startActivity(i);
 
             }
