@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,5 +70,20 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
 
             }
         });
+        final EditText editFirma = (EditText) findViewById(R.id.editFirma);
+        final CheckBox firma = (CheckBox) findViewById(R.id.Firma);
+        firma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (((CheckBox) view).isChecked()) {
+                    editFirma.setVisibility(View.VISIBLE);
+                } else {
+                    editFirma.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
     }
+
+
 }
