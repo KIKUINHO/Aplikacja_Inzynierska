@@ -7,4 +7,8 @@
     <string name="hintNazwisko">Wpisz Nazwisko</string>
     <string name="editNumerTel">Podaj Numer Telefonu</string>
     <string name="buttonkrok1">Dalej</string>
+    <string name="godzina_data">Wybierz godzinę i datę</string>
+    <string name="hintdata">Wpisz datę</string>
+    <string name="hintczas">Wpisz godzinę</string>
+    <string name="dalej">Dalej</string>
 </resources>
