@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -99,7 +100,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mDatabase = FirebaseDatabase.getInstance().getReference();
+                mDatabase = FirebaseDatabase.getInstance().getReference().push();
 
                 String imie = editImie.getText().toString().trim();
                 String nazwisko = editNazwisko.getText().toString().trim();
@@ -114,8 +115,12 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 rezerwacja.setData1(data);
                 rezerwacja.setCzas1(czas);
                 mDatabase.child("rez").setValue(rezerwacja);
-
-
+                Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
+                editImie.setText(null);
+                editNazwisko.setText(null);
+                editNrTel.setText(null);
+                data1.setText(null);
+                czas1.setText(null);
             }
         });
 
