@@ -5,11 +5,15 @@ import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,6 +21,7 @@ import java.util.Locale;
 
 public class DodajRezerwacjeActivity extends AppCompatActivity {
 
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +87,39 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        final EditText editImie = (EditText) findViewById(R.id.editImie);
+        final EditText editNazwisko = (EditText) findViewById(R.id.editNazwisko);
+        final EditText editNrTel = (EditText) findViewById(R.id.editNumerTel);
+        final EditText data1 = (EditText) findViewById(R.id.data);
+        final EditText czas1 = (EditText) findViewById(R.id.czas);
+        final Button dodaj = (Button) findViewById(R.id.buttonkrok1);
+
+        dodaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+
+                String imie = editImie.getText().toString().trim();
+                String nazwisko = editNazwisko.getText().toString().trim();
+                String telefon = editNrTel.getText().toString().trim();
+                String data = data1.getText().toString().trim();
+                String czas = czas1.getText().toString().trim();
+
+                Rezerwacja rezerwacja = new Rezerwacja();
+                rezerwacja.setImie(imie);
+                rezerwacja.setNazwisko(nazwisko);
+                rezerwacja.setNrTelefonu(telefon);
+                rezerwacja.setData1(data);
+                rezerwacja.setCzas1(czas);
+                mDatabase.child("rez").setValue(rezerwacja);
+
+
+            }
+        });
+
+
 
     }
 
