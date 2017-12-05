@@ -103,30 +103,35 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mDatabase = FirebaseDatabase.getInstance().getReference().push();
+                if (editImie.getText().toString().equals("") | editNazwisko.getText().toString().equals("") | editNrTel.getText().toString().equals("") |
+                        data1.getText().toString().equals("") | czas1.getText().toString().equals("")) {
+                    Toast.makeText(DodajRezerwacjeActivity.this, "Wypełnij wszystkie pola", Toast.LENGTH_SHORT).show();
+                } else {
+                    mDatabase = FirebaseDatabase.getInstance().getReference().push();
 
-                String imie = editImie.getText().toString().trim();
-                String nazwisko = editNazwisko.getText().toString().trim();
-                String telefon = editNrTel.getText().toString().trim();
-                String data = data1.getText().toString().trim();
-                String czas = czas1.getText().toString().trim();
-                String firma = firma1.getText().toString().trim();
+                    String imie = editImie.getText().toString().trim();
+                    String nazwisko = editNazwisko.getText().toString().trim();
+                    String telefon = editNrTel.getText().toString().trim();
+                    String data = data1.getText().toString().trim();
+                    String czas = czas1.getText().toString().trim();
+                    String firma = firma1.getText().toString().trim();
 
-                Rezerwacja rezerwacja = new Rezerwacja();
-                rezerwacja.setImie(imie);
-                rezerwacja.setNazwisko(nazwisko);
-                rezerwacja.setNrTelefonu(telefon);
-                rezerwacja.setData1(data);
-                rezerwacja.setCzas1(czas);
-                rezerwacja.setFirma(firma);
-                mDatabase.child("rez").setValue(rezerwacja);
-                Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
-                editImie.setText(null);
-                editNazwisko.setText(null);
-                editNrTel.setText(null);
-                data1.setText(null);
-                czas1.setText(null);
-                firma1.setText(null);
+                    Rezerwacja rezerwacja = new Rezerwacja();
+                    rezerwacja.setImie(imie);
+                    rezerwacja.setNazwisko(nazwisko);
+                    rezerwacja.setNrTelefonu(telefon);
+                    rezerwacja.setData1(data);
+                    rezerwacja.setCzas1(czas);
+                    rezerwacja.setFirma(firma);
+                    mDatabase.child("rez").setValue(rezerwacja);
+                    Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
+                    editImie.setText(null);
+                    editNazwisko.setText(null);
+                    editNrTel.setText(null);
+                    data1.setText(null);
+                    czas1.setText(null);
+                    firma1.setText(null);
+                }
             }
         });
 
