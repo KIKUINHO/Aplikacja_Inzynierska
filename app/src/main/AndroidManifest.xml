@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DodajRezerwacjeActivity" />
+        <activity android:name=".WyszukiwarkaActivity"></activity>
     </application>
 
 </manifest>

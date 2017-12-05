@@ -60,4 +60,12 @@ public class Rezerwacja {
     public String data1;
     public String czas1;
 
+    public String toString() {
+        return this.imie + " " + nazwisko + " " + data1 + " " + czas1 + " " + firma;
+
+
+    }
+
+    ;
+
 }
