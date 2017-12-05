@@ -6,6 +6,16 @@ public class Rezerwacja {
     public String imie;
     public String nazwisko;
 
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
+
+    public String firma;
+
     public String getImie() {
         return imie;
     }
@@ -49,4 +59,5 @@ public class Rezerwacja {
     public String nrTelefonu;
     public String data1;
     public String czas1;
+
 }

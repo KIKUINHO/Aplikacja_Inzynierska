@@ -94,6 +94,9 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
         final EditText editNrTel = (EditText) findViewById(R.id.editNumerTel);
         final EditText data1 = (EditText) findViewById(R.id.data);
         final EditText czas1 = (EditText) findViewById(R.id.czas);
+        final EditText firma1 = (EditText) findViewById(R.id.editFirma);
+
+
         final Button dodaj = (Button) findViewById(R.id.buttonkrok1);
 
         dodaj.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +110,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 String telefon = editNrTel.getText().toString().trim();
                 String data = data1.getText().toString().trim();
                 String czas = czas1.getText().toString().trim();
+                String firma = firma1.getText().toString().trim();
 
                 Rezerwacja rezerwacja = new Rezerwacja();
                 rezerwacja.setImie(imie);
@@ -114,6 +118,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 rezerwacja.setNrTelefonu(telefon);
                 rezerwacja.setData1(data);
                 rezerwacja.setCzas1(czas);
+                rezerwacja.setFirma(firma);
                 mDatabase.child("rez").setValue(rezerwacja);
                 Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
                 editImie.setText(null);
@@ -121,10 +126,9 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 editNrTel.setText(null);
                 data1.setText(null);
                 czas1.setText(null);
+                firma1.setText(null);
             }
         });
-
-
 
     }
 
