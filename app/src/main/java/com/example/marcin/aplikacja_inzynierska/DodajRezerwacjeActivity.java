@@ -2,6 +2,7 @@ package com.example.marcin.aplikacja_inzynierska;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -106,6 +107,21 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 if (editImie.getText().toString().equals("") | editNazwisko.getText().toString().equals("") | editNrTel.getText().toString().equals("") |
                         data1.getText().toString().equals("") | czas1.getText().toString().equals("")) {
                     Toast.makeText(DodajRezerwacjeActivity.this, "Wypełnij wszystkie pola", Toast.LENGTH_SHORT).show();
+                    if (editImie.getText().toString().equals("")) {
+                        editImie.setBackgroundColor(Color.RED);
+                    }
+                    if (editNazwisko.getText().toString().equals("")) {
+                        editNazwisko.setBackgroundColor(Color.RED);
+                    }
+                    if (editNrTel.getText().toString().equals("")) {
+                        editNrTel.setBackgroundColor(Color.RED);
+                    }
+                    if (data1.getText().toString().equals("")) {
+                        data1.setBackgroundColor(Color.RED);
+                    }
+                    if (czas1.getText().toString().equals("")) {
+                        czas1.setBackgroundColor(Color.RED);
+                    }
                 } else {
                     mDatabase = FirebaseDatabase.getInstance().getReference().push();
 
