@@ -109,21 +109,28 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                     Toast.makeText(DodajRezerwacjeActivity.this, "Wypełnij wszystkie pola", Toast.LENGTH_SHORT).show();
                     if (editImie.getText().toString().equals("")) {
                         editImie.setBackgroundColor(Color.RED);
+                        editImie.setTextColor(Color.WHITE);
+
                     }
                     if (editNazwisko.getText().toString().equals("")) {
                         editNazwisko.setBackgroundColor(Color.RED);
+                        editNazwisko.setTextColor(Color.WHITE);
                     }
                     if (editNrTel.getText().toString().equals("")) {
                         editNrTel.setBackgroundColor(Color.RED);
+                        editNrTel.setTextColor(Color.WHITE);
                     }
                     if (data1.getText().toString().equals("")) {
                         data1.setBackgroundColor(Color.RED);
+                        data1.setTextColor(Color.WHITE);
                     }
                     if (czas1.getText().toString().equals("")) {
                         czas1.setBackgroundColor(Color.RED);
+                        czas1.setTextColor(Color.WHITE);
                     }
                 } else {
                     mDatabase = FirebaseDatabase.getInstance().getReference().push();
+
 
                     String imie = editImie.getText().toString().trim();
                     String nazwisko = editNazwisko.getText().toString().trim();
