@@ -28,6 +28,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wyszukiwarka);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        // mDatabase = mDatabase.child("rez");
         myListView = (ListView) findViewById(R.id.listview);
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myrez);

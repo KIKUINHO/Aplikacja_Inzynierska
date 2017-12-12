@@ -3,6 +3,8 @@ package com.example.marcin.aplikacja_inzynierska;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,62 +25,69 @@ import java.util.Locale;
 
 public class DodajRezerwacjeActivity extends AppCompatActivity {
 
+    EditText data1, czas1, editFirma, editImie, editNazwisko, editNrTel, firma1;
+    Button dodaj;
+    CheckBox firma;
     private DatabaseReference mDatabase;
+    DatePickerDialog datePickerDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_rezerwacje);
 
-        final Calendar mojKalendarz = Calendar.getInstance();
-        final TextView date = (TextView) findViewById(R.id.data);
+        data1 = (EditText) findViewById(R.id.data);
+        czas1 = (EditText) findViewById(R.id.czas);
+        firma = (CheckBox) findViewById(R.id.Firma);
+        editImie = (EditText) findViewById(R.id.editImie);
+        editNazwisko = (EditText) findViewById(R.id.editNazwisko);
+        editNrTel = (EditText) findViewById(R.id.editNumerTel);
+        firma1 = (EditText) findViewById(R.id.editFirma);
 
-        final DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                mojKalendarz.set(Calendar.YEAR, year);
-                mojKalendarz.set(Calendar.MONTH, monthOfYear);
-                mojKalendarz.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "dd/MMM/yyyy";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
 
-                date.setText(sdf.format(mojKalendarz.getTime()));
+        dodaj = (Button) findViewById(R.id.buttonkrok1);
 
-            }
-        };
-
-        date.setOnClickListener(new View.OnClickListener() {
+        data1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(DodajRezerwacjeActivity.this, datePickerListener, mojKalendarz.get(Calendar.YEAR),
-                        mojKalendarz.get(Calendar.MONTH),
-                        mojKalendarz.get(Calendar.DAY_OF_MONTH)).show();
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                datePickerDialog = new DatePickerDialog(DodajRezerwacjeActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                data1.setText(dayOfMonth + " "
+                                        + (setMonthName(monthOfYear)) + " (" + setMonthNumber(monthOfYear) + ") " + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+
+
             }
         });
 
-        final EditText pokazgodzine = (EditText) findViewById(R.id.czas);
-        pokazgodzine.setOnClickListener(new View.OnClickListener() {
-
+        czas1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View view) {
                 Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
-
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(DodajRezerwacjeActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        pokazgodzine.setText(selectedHour + ":" + selectedMinute);
+                        czas1.setText(selectedHour + ":" + setMinute(selectedMinute));
                     }
-                }, hour, minute, true);
+                }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Wybierz godzinę");
                 mTimePicker.show();
-
             }
         });
-        final EditText editFirma = (EditText) findViewById(R.id.editFirma);
-        final CheckBox firma = (CheckBox) findViewById(R.id.Firma);
         firma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,15 +99,6 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
             }
         });
 
-        final EditText editImie = (EditText) findViewById(R.id.editImie);
-        final EditText editNazwisko = (EditText) findViewById(R.id.editNazwisko);
-        final EditText editNrTel = (EditText) findViewById(R.id.editNumerTel);
-        final EditText data1 = (EditText) findViewById(R.id.data);
-        final EditText czas1 = (EditText) findViewById(R.id.czas);
-        final EditText firma1 = (EditText) findViewById(R.id.editFirma);
-
-
-        final Button dodaj = (Button) findViewById(R.id.buttonkrok1);
 
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,11 +154,72 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                     data1.setText(null);
                     czas1.setText(null);
                     firma1.setText(null);
+
                 }
             }
         });
+    }
 
+    private String setMonthNumber(int monthOfYear) {
+        if (monthOfYear < 9)
+            return "0" + String.valueOf(monthOfYear + 1);
+        else
+            return String.valueOf(monthOfYear + 1);
+    }
+
+    private String setMinute(int selectedMinute) {
+        if (selectedMinute < 10)
+            return "0" + String.valueOf(selectedMinute);
+        else
+            return String.valueOf(selectedMinute);
+    }
+
+    private String setMonthName(int monthOfYear) {
+
+        String res = null;
+        switch (monthOfYear) {
+            case Calendar.JANUARY:
+                res = "stycznia";
+                break;
+            case Calendar.FEBRUARY:
+                res = "lutego";
+                break;
+            case Calendar.MARCH:
+                res = "marca";
+                break;
+            case Calendar.APRIL:
+                res = "kwietnia";
+                break;
+            case Calendar.MAY:
+                res = "maja";
+                break;
+            case Calendar.JUNE:
+                res = "czerwca";
+                break;
+            case Calendar.JULY:
+                res = "lipca";
+                break;
+            case Calendar.AUGUST:
+                res = "sierpnia";
+                break;
+            case Calendar.SEPTEMBER:
+                res = "września";
+                break;
+            case Calendar.OCTOBER:
+                res = "października";
+                break;
+            case Calendar.NOVEMBER:
+                res = "listopada";
+                break;
+            case Calendar.DECEMBER:
+                res = "grudnia";
+                break;
+        }
+        return res;
     }
 
 
 }
+
+
+
