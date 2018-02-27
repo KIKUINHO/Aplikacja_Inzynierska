@@ -1,9 +1,14 @@
 package com.example.marcin.aplikacja_inzynierska;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +38,33 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        mlista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WyszukiwarkaActivity.this);
+                alertDialogBuilder.setMessage("Czy napewno chcesz usunąć element?");
+                alertDialogBuilder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                        Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("NIE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Toast.makeText(WyszukiwarkaActivity.this, "Nie usunięto elementu", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+            }
+        });
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -44,6 +76,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
@@ -67,46 +100,8 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listav);
         mlista.setAdapter(adapter);
     }
+
+
 }
-/*
-    private DatabaseReference mDatabase;
-    private ListView mlista;
-    ArrayList<Rezerwacja> lista = new ArrayList<>();
-    ArrayList<String> listav = new ArrayList<>();
- mlista = (ListView) findViewById(R.id.listView);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
-    }
-    private void showData(DataSnapshot dataSnapshot){
-        ArrayAdapter adapter;
-
-        for (DataSnapshot sa:dataSnapshot.child("rez").getChildren()){
-
-            Rezerwacja rezerwacja = new Rezerwacja(dataSnapshot.child("rez").child(sa.getKey()).child("imie").getValue().toString(),
-                    dataSnapshot.child("rez").child(sa.getKey()).child("nazwisko").getValue().toString(),
-                    //  dataSnapshot.child("rez").child(sa.getKey()).child("firma").getValue().toString(),
-                    dataSnapshot.child("rez").child(sa.getKey()).child("nrTelefonu").getValue().toString(),
-                    dataSnapshot.child("rez").child(sa.getKey()).child("data").getValue().toString(),
-                    dataSnapshot.child("rez").child(sa.getKey()).child("czas").getValue().toString());
-
-            lista.add(rezerwacja);
-            listav.add(rezerwacja.imie);
-        }
-        adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listav);
-        mlista.setAdapter(adapter);
-        */
