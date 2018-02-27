@@ -129,24 +129,11 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                         czas1.setTextColor(Color.WHITE);
                     }
                 } else {
-                    mDatabase = FirebaseDatabase.getInstance().getReference().push();
+                    mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-                    String imie = editImie.getText().toString().trim();
-                    String nazwisko = editNazwisko.getText().toString().trim();
-                    String telefon = editNrTel.getText().toString().trim();
-                    String data = data1.getText().toString().trim();
-                    String czas = czas1.getText().toString().trim();
-                    String firma = firma1.getText().toString().trim();
-
-                    Rezerwacja rezerwacja = new Rezerwacja();
-                    rezerwacja.setImie(imie);
-                    rezerwacja.setNazwisko(nazwisko);
-                    rezerwacja.setNrTelefonu(telefon);
-                    rezerwacja.setData1(data);
-                    rezerwacja.setCzas1(czas);
-                    rezerwacja.setFirma(firma);
-                    mDatabase.child("rez").setValue(rezerwacja);
+                    Rezerwacja rezerwacja = new Rezerwacja(editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
+                    mDatabase.child("rezerwacja").push().setValue(rezerwacja);
                     Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
                     editImie.setText(null);
                     editNazwisko.setText(null);

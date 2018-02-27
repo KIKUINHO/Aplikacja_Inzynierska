@@ -1,69 +1,40 @@
 package com.example.marcin.aplikacja_inzynierska;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Rezerwacja {
 
     public String imie;
     public String nazwisko;
-
-    public String getFirma() {
-        return firma;
-    }
-
-    public void setFirma(String firma) {
-        this.firma = firma;
-    }
-
-    public String firma;
-
-    public String getImie() {
-        return imie;
-    }
-
-    public void setImie(String imie) {
-        this.imie = imie;
-    }
-
-    public String getNazwisko() {
-        return nazwisko;
-    }
-
-    public void setNazwisko(String nazwisko) {
-        this.nazwisko = nazwisko;
-    }
-
-    public String getNrTelefonu() {
-        return nrTelefonu;
-    }
-
-    public void setNrTelefonu(String nrTelefonu) {
-        this.nrTelefonu = nrTelefonu;
-    }
-
-    public String getData1() {
-        return data1;
-    }
-
-    public void setData1(String data1) {
-        this.data1 = data1;
-    }
-
-    public String getCzas1() {
-        return czas1;
-    }
-
-    public void setCzas1(String czas1) {
-        this.czas1 = czas1;
-    }
-
+    // public String firma;
     public String nrTelefonu;
     public String data1;
     public String czas1;
 
-    public String toString() {
-        return this.imie + " " + nazwisko + " " + data1 + " " + czas1 + " " + firma;
+    public Rezerwacja(String imie, String nazwisko, String nrTelefonu, String data1, String czas1) {
 
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        // this.firma = firma;
+        this.nrTelefonu = nrTelefonu;
+        this.czas1 = czas1;
+        this.data1 = data1;
 
+    }
+
+    public Map<String, Object> toMap() {
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("imie", imie);
+        result.put("nazwisko", nazwisko);
+        // result.put("firma", firma);
+        result.put("nrTelefonu", nrTelefonu);
+        result.put("czas", czas1);
+        result.put("data", data1);
+
+        return result;
     }
 
 
