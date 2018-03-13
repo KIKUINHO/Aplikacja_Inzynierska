@@ -15,4 +15,5 @@
     <string name="Firma">Firma</string>
     <string name="hintFirma">Podaj nazwę</string>
     <string name="cykliczna">Cykliczna</string>
+    <string name="szukajrezerwacji">Wybierz dzień</string>
 </resources>

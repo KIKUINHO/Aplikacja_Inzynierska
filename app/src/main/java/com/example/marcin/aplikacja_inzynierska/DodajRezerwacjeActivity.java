@@ -16,8 +16,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -100,6 +103,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
         });
 
 
+
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,17 +134,37 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                     }
                 } else {
                     mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("rezerwacja").orderByChild("czas1").equalTo(String.valueOf(czas1));
+
+                    ValueEventListener eventListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                Rezerwacja rezerwacja = new Rezerwacja(editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
+                                mDatabase.child("rezerwacja").push().setValue(rezerwacja);
+                                Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
+                                editImie.setText(null);
+                                editNazwisko.setText(null);
+                                editNrTel.setText(null);
+                                data1.setText(null);
+                                czas1.setText(null);
+                                firma1.setText(null);
+
+                            } else {
+                                Toast.makeText(DodajRezerwacjeActivity.this, "Na daną godzinę istnieje już rezerwacja", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    };
+                    mDatabase.addListenerForSingleValueEvent(eventListener);
 
 
-                    Rezerwacja rezerwacja = new Rezerwacja(editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
-                    mDatabase.child("rezerwacja").push().setValue(rezerwacja);
-                    Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
-                    editImie.setText(null);
-                    editNazwisko.setText(null);
-                    editNrTel.setText(null);
-                    data1.setText(null);
-                    czas1.setText(null);
-                    firma1.setText(null);
+
+
+
 
                 }
             }
