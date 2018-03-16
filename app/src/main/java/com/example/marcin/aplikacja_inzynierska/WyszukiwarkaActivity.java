@@ -47,7 +47,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         wybierzdzien = (Button) findViewById(R.id.szukajrez);
         mlista = (ListView) findViewById(R.id.listarez);
-
+        // obsługa przycisku wyboru daty do wyświetlenia rezerwacji z danego dnia
         wybierzdzien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +71,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
             }
         });
-
+        // nie działa filtrowanie danych
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Query query = mDatabase.child("rezerwacja").orderByChild("imie").equalTo("marcin");
@@ -95,19 +95,16 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
 
 
-                /*
+                /* działające wyświetlanie rezerwacji z usuwaniem wszystkiego z bazy danych oraz brak odświeżania listview
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
                 delete(dataSnapshot);
                 adapter.notifyDataSetChanged();
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 */
@@ -135,6 +132,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
         mlista.setAdapter(adapter);
     }
 
+    // usuwanie z bazy danych
     private void delete(final DataSnapshot dataSnapshot) {
 
         mlista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -221,5 +219,3 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
 
 }
-
-
