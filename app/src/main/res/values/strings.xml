@@ -7,12 +7,19 @@
     <string name="hintNazwisko">Wpisz Nazwisko</string>
     <string name="editNumerTel">Podaj Numer Telefonu</string>
     <string name="buttonkrok1">Dalej</string>
-    <string name="godzina_data">Wybierz godzinę i datę</string>
-    <string name="hintdata">Wpisz datę</string>
-    <string name="hintczas">Wpisz godzinę</string>
+
+    <string name="hintdata">Wybierz datę</string>
+    <string name="hintczas">Wybierz godzinę</string>
     <string name="Dodaj">Dodaj</string>
 
     <string name="Firma">Firma</string>
     <string name="hintFirma">Podaj nazwę</string>
     <string name="cykliczna">Cykliczna</string>
+    <string name="szukajrezerwacji">Wybierz dzień</string>
+
+    <string-array name="hala">
+        <item>Całość</item>
+        <item>Połowa</item>
+
+    </string-array>
 </resources>

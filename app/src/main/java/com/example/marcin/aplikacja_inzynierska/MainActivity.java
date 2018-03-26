@@ -13,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button dodajgodzinedate = (Button) findViewById(R.id.buttondodajrezerwacje);
-        dodajgodzinedate.setOnClickListener(new View.OnClickListener() {
+        Button dodajrezerwacje = (Button) findViewById(R.id.buttondodajrezerwacje);
+        dodajrezerwacje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), DodajRezerwacjeActivity.class);
@@ -22,6 +22,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        Button wyszukajrezerwacje = (Button) findViewById(R.id.buttonwyszukajrezerwacje);
+        wyszukajrezerwacje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), WyszukiwarkaActivity.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 }
