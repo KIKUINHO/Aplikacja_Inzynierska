@@ -52,6 +52,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
 
         // Problem w tym że nie mogę odczytać pozycji spinnnera i wsadzić go do rezerwacji
         // Oraz zastanawiam się jak zrobić np co tygodniową rezerwacje
+        //test
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.hala, android.R.layout.simple_spinner_item);
 
