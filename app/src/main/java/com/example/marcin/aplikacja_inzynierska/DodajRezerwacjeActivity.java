@@ -142,7 +142,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                     ValueEventListener eventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (!dataSnapshot.exists()) {
+                            if (dataSnapshot.exists()) {
                                 // w tym ifie wykonuje tylko to co znajduje się po else lub w przypadku braku negacji datasnapshota wykonuje się pierwsza część
                                 Rezerwacja rezerwacja = new Rezerwacja(editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
                                 mDatabase.child("rezerwacja").push().setValue(rezerwacja);
@@ -152,7 +152,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                                 editNrTel.setText(null);
                                 data1.setText(null);
                                 czas1.setText(null);
-                                firma1.setText(null);
+                                //  firma1.setText(null);
 
                             } else {
 

@@ -14,6 +14,10 @@ public class Rezerwacja {
     public String czas1;
     // public String hala;
 
+
+    public Rezerwacja() {
+    }
+
     public Rezerwacja(String imie, String nazwisko, String nrTelefonu, String data1, String czas1) {
 
         this.imie = imie;

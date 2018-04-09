@@ -72,7 +72,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
         });
         // nie działa filtrowanie danych
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+/*
         Query query = mDatabase.child("rezerwacja").orderByChild("imie").equalTo("marcin");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,10 +91,37 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
             }
         });
+*/
+/*
+       mDatabase.addChildEventListener(new ChildEventListener() {
+           @Override
+           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+               showData(dataSnapshot);
+           }
 
+           @Override
+           public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+           }
 
-                /* działające wyświetlanie rezerwacji z usuwaniem wszystkiego z bazy danych oraz brak odświeżania listview
+           @Override
+           public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+               delete(dataSnapshot);
+           }
+
+           @Override
+           public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
+*/
+        // działające wyświetlanie rezerwacji z usuwaniem wszystkiego z bazy danych oraz brak odświeżania listview
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,7 +133,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-*/
+
 
     }
 
@@ -142,9 +169,10 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        dataSnapshot.getRef().removeValue();
+                        // z remRez zwraca mi wartość null
+                        Rezerwacja remRez = dataSnapshot.getValue(Rezerwacja.class);
 
-                        Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element", Toast.LENGTH_LONG).show();
+                        Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element" + remRez.data1, Toast.LENGTH_LONG).show();
 
                     }
                 });
