@@ -162,17 +162,29 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         mlista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, final long l) {
+
+                // TWORZY  za każdym razem nowy klucz
+                String placeId = mDatabase.child("rezerwacja").push().getKey();
+                // Zaraca jako klucz rezerwacja
+                String placeId = mDatabase.child("rezerwacja").getKey();
+                Rezerwacja remRez = dataSnapshot.getValue(Rezerwacja.class);
+                mDatabase.child("rezerwacja").child(placeId).removeValue();
+
+                Toast.makeText(WyszukiwarkaActivity.this, placeId, Toast.LENGTH_SHORT).show();
+                // mlista.getSelectedItemPosition(i).toString();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WyszukiwarkaActivity.this);
                 alertDialogBuilder.setMessage("Czy napewno chcesz usunąć element?");
                 alertDialogBuilder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        // z remRez zwraca mi wartość null
-                        Rezerwacja remRez = dataSnapshot.getValue(Rezerwacja.class);
 
-                        Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element" + remRez.data1, Toast.LENGTH_LONG).show();
+                        // z remRez zwraca mi wartość null
+                        // mlista.getSelectedItemPosition(i).toString();
+
+
+                        //Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element" + String.valueOf(i), Toast.LENGTH_LONG).show();
 
                     }
                 });

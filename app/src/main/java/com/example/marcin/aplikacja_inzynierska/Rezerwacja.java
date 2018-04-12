@@ -18,6 +18,10 @@ public class Rezerwacja {
     public Rezerwacja() {
     }
 
+    public String getData1() {
+        return data1;
+    }
+
     public Rezerwacja(String imie, String nazwisko, String nrTelefonu, String data1, String czas1) {
 
         this.imie = imie;

@@ -77,8 +77,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                                data1.setText(dayOfMonth + " "
-                                        + (setMonthName(monthOfYear)) + " (" + setMonthNumber(monthOfYear) + ") " + year);
+                                data1.setText(year + "-" + setMonthNumber(monthOfYear) + "-" + setNumber(dayOfMonth));
 
                             }
                         }, mYear, mMonth, mDay);
@@ -98,7 +97,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(DodajRezerwacjeActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        czas1.setText(selectedHour + ":" + setMinute(selectedMinute));
+                        czas1.setText(setNumber(selectedHour) + ":" + setMinute(selectedMinute));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Wybierz godzinę");
@@ -185,6 +184,13 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
             return "0" + String.valueOf(selectedMinute);
         else
             return String.valueOf(selectedMinute);
+    }
+
+    private String setNumber(int num) {
+        if (num < 10)
+            return "0" + String.valueOf(num);
+        else
+            return String.valueOf(num);
     }
 
     private String setMonthName(int monthOfYear) {
