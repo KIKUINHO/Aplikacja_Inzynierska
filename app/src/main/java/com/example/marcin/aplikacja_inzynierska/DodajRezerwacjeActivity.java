@@ -3,10 +3,9 @@ package com.example.marcin.aplikacja_inzynierska;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -22,19 +20,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class DodajRezerwacjeActivity extends AppCompatActivity {
 
     EditText data1, czas1, editFirma, editImie, editNazwisko, editNrTel, firma1;
     Button dodaj;
-    CheckBox firma;
+    boolean f = true;
     private DatabaseReference mDatabase;
     DatePickerDialog datePickerDialog;
+    public ArrayList<Rezerwacja> lista = new ArrayList<>();
+    public ArrayList<String> listav = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,12 +137,32 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                     }
                 } else {
                     mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("rezerwacja").orderByChild("czas1").equalTo(String.valueOf(czas1));
 
+                    f = test(data1.getText().toString() + czas1.getText().toString());
+                    // mDatabase.child("rezerwacja").orderByChild("czas1").equalTo(czas1.toString());
+                    //Query godz = mDatabase.child("rezerwacja").orderByChild("czas1").equalTo(czas1.toString());
                     ValueEventListener eventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
+
+
+                            if (f) {
+                                Rezerwacja rezerwacja = new Rezerwacja(data1.getText().toString() + czas1.getText().toString(), editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
+                                mDatabase.child("rezerwacja").push().setValue(rezerwacja);
+                                Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
+                                editImie.setText(null);
+                                editNazwisko.setText(null);
+                                editNrTel.setText(null);
+                                data1.setText(null);
+                                czas1.setText(null);
+                            } else {
+                                Toast.makeText(DodajRezerwacjeActivity.this, "Na daną godzinę istnieje już rezerwacja", Toast.LENGTH_SHORT).show();
+                            }
+
+
+
+
+                        /*    if (dataSnapshot.exists()) {
                                 // w tym ifie wykonuje tylko to co znajduje się po else lub w przypadku braku negacji datasnapshota wykonuje się pierwsza część
                                 Rezerwacja rezerwacja = new Rezerwacja(editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
                                 mDatabase.child("rezerwacja").push().setValue(rezerwacja);
@@ -158,7 +179,9 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
 
                                 Toast.makeText(DodajRezerwacjeActivity.this, "Na daną godzinę istnieje już rezerwacja", Toast.LENGTH_SHORT).show();
                             }
+                            */
                         }
+
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
@@ -170,6 +193,43 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    private boolean test(String dane) {
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot sa : dataSnapshot.child("rezerwacja").getChildren()) {
+
+                    //String placeId = dataSnapshot.child("rezerwacja").child(sa.getKey()).getKey();
+                    Log.d("AAA", "BBB");
+                    Rezerwacja rezerwacja = new Rezerwacja(dataSnapshot.child("rezerwacja").child(sa.getKey()).child("id").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("imie").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nazwisko").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nrTelefonu").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("czas1").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("data1").getValue().toString()
+
+                    );
+
+                    lista.add(rezerwacja);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).id.equals(dane))
+                return false;
+        }
+        return true;
     }
 
     private String setMonthNumber(int monthOfYear) {

@@ -28,12 +28,12 @@ import java.util.Calendar;
 public class WyszukiwarkaActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private ListView mlista;
+    public ListView mlista;
     Button wybierzdzien;
     char zmienna;
 
-    ArrayList<Rezerwacja> lista = new ArrayList<>();
-    ArrayList<String> listav = new ArrayList<>();
+    public ArrayList<Rezerwacja> lista = new ArrayList<>();
+    public ArrayList<String> listav = new ArrayList<>();
     ArrayAdapter adapter;
     DatePickerDialog datePickerDialog;
 
@@ -142,7 +142,8 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         for (DataSnapshot sa : dataSnapshot.child("rezerwacja").getChildren()) {
 
-            Rezerwacja rezerwacja = new Rezerwacja(
+            String placeId = dataSnapshot.child("rezerwacja").child(sa.getKey()).getKey();
+            Rezerwacja rezerwacja = new Rezerwacja(placeId,
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("imie").getValue().toString(),
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nazwisko").getValue().toString(),
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nrTelefonu").getValue().toString(),
@@ -151,7 +152,8 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
             );
             lista.add(rezerwacja);
-            listav.add(rezerwacja.data1);
+            String dane = rezerwacja.czas1 + rezerwacja.data1;
+            listav.add(dane);
         }
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listav);
         mlista.setAdapter(adapter);
@@ -165,13 +167,13 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, final long l) {
 
                 // TWORZY  za każdym razem nowy klucz
-                String placeId = mDatabase.child("rezerwacja").push().getKey();
+                //String placeId = mDatabase.child("rezerwacja").push().getKey();
                 // Zaraca jako klucz rezerwacja
-                String placeId = mDatabase.child("rezerwacja").getKey();
+                // String placeId = mDatabase.child("rezerwacja").getKey();
                 Rezerwacja remRez = dataSnapshot.getValue(Rezerwacja.class);
-                mDatabase.child("rezerwacja").child(placeId).removeValue();
+                mDatabase.child("rezerwacja").child("id").removeValue();
 
-                Toast.makeText(WyszukiwarkaActivity.this, placeId, Toast.LENGTH_SHORT).show();
+                Toast.makeText(WyszukiwarkaActivity.this, "usunieto", Toast.LENGTH_SHORT).show();
                 // mlista.getSelectedItemPosition(i).toString();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WyszukiwarkaActivity.this);
                 alertDialogBuilder.setMessage("Czy napewno chcesz usunąć element?");
