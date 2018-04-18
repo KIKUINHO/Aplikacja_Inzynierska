@@ -51,9 +51,6 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
 
-        // Problem w tym że nie mogę odczytać pozycji spinnnera i wsadzić go do rezerwacji
-        // Oraz zastanawiam się jak zrobić np co tygodniową rezerwacje
-        //test
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.hala, android.R.layout.simple_spinner_item);
 
@@ -139,8 +136,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                     mDatabase = FirebaseDatabase.getInstance().getReference();
 
                     f = test(data1.getText().toString() + czas1.getText().toString());
-                    // mDatabase.child("rezerwacja").orderByChild("czas1").equalTo(czas1.toString());
-                    //Query godz = mDatabase.child("rezerwacja").orderByChild("czas1").equalTo(czas1.toString());
+
                     ValueEventListener eventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -160,26 +156,6 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                             }
 
 
-
-
-                        /*    if (dataSnapshot.exists()) {
-                                // w tym ifie wykonuje tylko to co znajduje się po else lub w przypadku braku negacji datasnapshota wykonuje się pierwsza część
-                                Rezerwacja rezerwacja = new Rezerwacja(editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
-                                mDatabase.child("rezerwacja").push().setValue(rezerwacja);
-                                Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
-                                editImie.setText(null);
-                                editNazwisko.setText(null);
-                                editNrTel.setText(null);
-                                data1.setText(null);
-                                czas1.setText(null);
-                                //  firma1.setText(null);
-
-                            } else {
-
-
-                                Toast.makeText(DodajRezerwacjeActivity.this, "Na daną godzinę istnieje już rezerwacja", Toast.LENGTH_SHORT).show();
-                            }
-                            */
                         }
 
 
@@ -203,8 +179,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot sa : dataSnapshot.child("rezerwacja").getChildren()) {
 
-                    //String placeId = dataSnapshot.child("rezerwacja").child(sa.getKey()).getKey();
-                    Log.d("AAA", "BBB");
+
                     Rezerwacja rezerwacja = new Rezerwacja(dataSnapshot.child("rezerwacja").child(sa.getKey()).child("id").getValue().toString(),
                             dataSnapshot.child("rezerwacja").child(sa.getKey()).child("imie").getValue().toString(),
                             dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nazwisko").getValue().toString(),
@@ -252,51 +227,6 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
         else
             return String.valueOf(num);
     }
-
-    private String setMonthName(int monthOfYear) {
-
-        String res = null;
-        switch (monthOfYear) {
-            case Calendar.JANUARY:
-                res = "stycznia";
-                break;
-            case Calendar.FEBRUARY:
-                res = "lutego";
-                break;
-            case Calendar.MARCH:
-                res = "marca";
-                break;
-            case Calendar.APRIL:
-                res = "kwietnia";
-                break;
-            case Calendar.MAY:
-                res = "maja";
-                break;
-            case Calendar.JUNE:
-                res = "czerwca";
-                break;
-            case Calendar.JULY:
-                res = "lipca";
-                break;
-            case Calendar.AUGUST:
-                res = "sierpnia";
-                break;
-            case Calendar.SEPTEMBER:
-                res = "września";
-                break;
-            case Calendar.OCTOBER:
-                res = "października";
-                break;
-            case Calendar.NOVEMBER:
-                res = "listopada";
-                break;
-            case Calendar.DECEMBER:
-                res = "grudnia";
-                break;
-        }
-        return res;
-    }
-
 
 }
 

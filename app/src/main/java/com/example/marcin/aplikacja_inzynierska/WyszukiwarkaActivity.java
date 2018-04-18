@@ -31,6 +31,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
     public ListView mlista;
     Button wybierzdzien;
     char zmienna;
+    String placeId = "";
 
     public ArrayList<Rezerwacja> lista = new ArrayList<>();
     public ArrayList<String> listav = new ArrayList<>();
@@ -60,75 +61,29 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                                wybierzdzien.setText(dayOfMonth + " "
-                                        + (setMonthName(monthOfYear)) + " (" + setMonthNumber(monthOfYear) + ") " + year);
-
+                                wybierzdzien.setText(year + "-" + setMonthNumber(monthOfYear) + "-" + setNumber(dayOfMonth));
 
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
+
             }
         });
-        // nie działa filtrowanie danych
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
-/*
-        Query query = mDatabase.child("rezerwacja").orderByChild("imie").equalTo("marcin");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    showData(dataSnapshot);
-
-                }
 
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-*/
-/*
-       mDatabase.addChildEventListener(new ChildEventListener() {
-           @Override
-           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-               showData(dataSnapshot);
-           }
-
-           @Override
-           public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-           }
-
-           @Override
-           public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-               delete(dataSnapshot);
-           }
-
-           @Override
-           public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-           }
-
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-
-           }
-       });
-*/
-        // działające wyświetlanie rezerwacji z usuwaniem wszystkiego z bazy danych oraz brak odświeżania listview
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
+
                 delete(dataSnapshot);
-                adapter.notifyDataSetChanged();
+
+
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -142,7 +97,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         for (DataSnapshot sa : dataSnapshot.child("rezerwacja").getChildren()) {
 
-            String placeId = dataSnapshot.child("rezerwacja").child(sa.getKey()).getKey();
+            placeId = dataSnapshot.child("rezerwacja").child(sa.getKey()).getKey();
             Rezerwacja rezerwacja = new Rezerwacja(placeId,
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("imie").getValue().toString(),
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nazwisko").getValue().toString(),
@@ -152,7 +107,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
             );
             lista.add(rezerwacja);
-            String dane = rezerwacja.czas1 + rezerwacja.data1;
+            String dane = rezerwacja.data1 + " " + rezerwacja.czas1;
             listav.add(dane);
         }
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listav);
@@ -166,27 +121,15 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, final long l) {
 
-                // TWORZY  za każdym razem nowy klucz
-                //String placeId = mDatabase.child("rezerwacja").push().getKey();
-                // Zaraca jako klucz rezerwacja
-                // String placeId = mDatabase.child("rezerwacja").getKey();
-                Rezerwacja remRez = dataSnapshot.getValue(Rezerwacja.class);
-                mDatabase.child("rezerwacja").child("id").removeValue();
 
-                Toast.makeText(WyszukiwarkaActivity.this, "usunieto", Toast.LENGTH_SHORT).show();
-                // mlista.getSelectedItemPosition(i).toString();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(WyszukiwarkaActivity.this);
                 alertDialogBuilder.setMessage("Czy napewno chcesz usunąć element?");
                 alertDialogBuilder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        mDatabase.child("rezerwacja").child(placeId).removeValue();
 
-
-                        // z remRez zwraca mi wartość null
-                        // mlista.getSelectedItemPosition(i).toString();
-
-
-                        //Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element" + String.valueOf(i), Toast.LENGTH_LONG).show();
+                        Toast.makeText(WyszukiwarkaActivity.this, "Usunięto element", Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -213,48 +156,11 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
             return String.valueOf(monthOfYear + 1);
     }
 
-    private String setMonthName(int monthOfYear) {
-
-        String res = null;
-        switch (monthOfYear) {
-            case Calendar.JANUARY:
-                res = "stycznia";
-                break;
-            case Calendar.FEBRUARY:
-                res = "lutego";
-                break;
-            case Calendar.MARCH:
-                res = "marca";
-                break;
-            case Calendar.APRIL:
-                res = "kwietnia";
-                break;
-            case Calendar.MAY:
-                res = "maja";
-                break;
-            case Calendar.JUNE:
-                res = "czerwca";
-                break;
-            case Calendar.JULY:
-                res = "lipca";
-                break;
-            case Calendar.AUGUST:
-                res = "sierpnia";
-                break;
-            case Calendar.SEPTEMBER:
-                res = "września";
-                break;
-            case Calendar.OCTOBER:
-                res = "października";
-                break;
-            case Calendar.NOVEMBER:
-                res = "listopada";
-                break;
-            case Calendar.DECEMBER:
-                res = "grudnia";
-                break;
-        }
-        return res;
+    private String setNumber(int num) {
+        if (num < 10)
+            return "0" + String.valueOf(num);
+        else
+            return String.valueOf(num);
     }
 
 
