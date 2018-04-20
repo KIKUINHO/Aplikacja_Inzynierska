@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         dodajrezerwacje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("TT", "I shouldn't be here");
+
                 Intent i = new Intent(getApplicationContext(), DodajRezerwacjeActivity.class);
                 startActivity(i);
 

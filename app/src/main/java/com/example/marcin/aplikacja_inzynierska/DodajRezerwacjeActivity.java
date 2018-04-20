@@ -28,9 +28,9 @@ import java.util.Calendar;
 
 public class DodajRezerwacjeActivity extends AppCompatActivity {
 
-    EditText data1, czas1, editFirma, editImie, editNazwisko, editNrTel, firma1;
+    EditText data1, czas1, editImie, editNazwisko, editNrTel;
     Button dodaj;
-    boolean f = true;
+    boolean warunek = true;
     private DatabaseReference mDatabase;
     DatePickerDialog datePickerDialog;
     public ArrayList<Rezerwacja> lista = new ArrayList<>();
@@ -43,20 +43,9 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
 
         data1 = (EditText) findViewById(R.id.data);
         czas1 = (EditText) findViewById(R.id.czas);
-
         editImie = (EditText) findViewById(R.id.editImie);
         editNazwisko = (EditText) findViewById(R.id.editNazwisko);
         editNrTel = (EditText) findViewById(R.id.editNumerTel);
-
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.hala, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
 
 
         dodaj = (Button) findViewById(R.id.buttonkrok1);
@@ -135,14 +124,14 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
                 } else {
                     mDatabase = FirebaseDatabase.getInstance().getReference();
 
-                    f = test(data1.getText().toString() + czas1.getText().toString());
+                    warunek = czyistnieje(data1.getText().toString() + czas1.getText().toString());
 
                     ValueEventListener eventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                            if (f) {
+                            if (warunek) {
                                 Rezerwacja rezerwacja = new Rezerwacja(data1.getText().toString() + czas1.getText().toString(), editImie.getText().toString(), editNazwisko.getText().toString(), editNrTel.getText().toString(), data1.getText().toString(), czas1.getText().toString());
                                 mDatabase.child("rezerwacja").push().setValue(rezerwacja);
                                 Toast.makeText(DodajRezerwacjeActivity.this, "Dodano", Toast.LENGTH_SHORT).show();
@@ -172,7 +161,7 @@ public class DodajRezerwacjeActivity extends AppCompatActivity {
     }
 
 
-    private boolean test(String dane) {
+    private boolean czyistnieje(String dane) {
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override

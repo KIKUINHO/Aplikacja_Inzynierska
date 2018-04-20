@@ -8,12 +8,9 @@ public class Rezerwacja {
     public String id;
     public String imie;
     public String nazwisko;
-    // public String firma;
     public String nrTelefonu;
     public String data1;
     public String czas1;
-
-    // public String hala;
 
 
     public Rezerwacja() {
@@ -28,11 +25,10 @@ public class Rezerwacja {
         this.id = id;
         this.imie = imie;
         this.nazwisko = nazwisko;
-        // this.firma = firma;
         this.nrTelefonu = nrTelefonu;
         this.czas1 = czas1;
         this.data1 = data1;
-        //    this.hala = hala;
+
 
     }
 
@@ -42,11 +38,9 @@ public class Rezerwacja {
         result.put("id", id);
         result.put("imie", imie);
         result.put("nazwisko", nazwisko);
-        // result.put("firma", firma);
         result.put("nrTelefonu", nrTelefonu);
         result.put("czas", czas1);
         result.put("data", data1);
-        //  result.put("hala", hala);
 
         return result;
     }

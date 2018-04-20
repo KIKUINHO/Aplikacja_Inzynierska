@@ -30,8 +30,9 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     public ListView mlista;
     Button wybierzdzien;
-    char zmienna;
+    public boolean warunek1 = true;
     String placeId = "";
+    String data;
 
     public ArrayList<Rezerwacja> lista = new ArrayList<>();
     public ArrayList<String> listav = new ArrayList<>();
@@ -62,6 +63,8 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                                 wybierzdzien.setText(year + "-" + setMonthNumber(monthOfYear) + "-" + setNumber(dayOfMonth));
+                                data = (year + "-" + setMonthNumber(monthOfYear) + "-" + setNumber(dayOfMonth));
+
 
                             }
                         }, mYear, mMonth, mDay);
@@ -73,13 +76,23 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        warunek1 = danyDzien(data);
+
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                showData(dataSnapshot);
 
-                delete(dataSnapshot);
+                if (warunek1) {
+                    showData(dataSnapshot);
+                    delete(dataSnapshot);
+                    adapter.clear();
+                    showData(dataSnapshot);
+                } else {
+                    Toast.makeText(WyszukiwarkaActivity.this, "Wybierz dzień!!!", Toast.LENGTH_LONG).show();
+
+                }
+
 
 
             }
@@ -97,6 +110,7 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
 
         for (DataSnapshot sa : dataSnapshot.child("rezerwacja").getChildren()) {
 
+
             placeId = dataSnapshot.child("rezerwacja").child(sa.getKey()).getKey();
             Rezerwacja rezerwacja = new Rezerwacja(placeId,
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("imie").getValue().toString(),
@@ -106,8 +120,9 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
                     dataSnapshot.child("rezerwacja").child(sa.getKey()).child("data1").getValue().toString()
 
             );
+
             lista.add(rezerwacja);
-            String dane = rezerwacja.data1 + " " + rezerwacja.czas1;
+            String dane = rezerwacja.data1 + " " + rezerwacja.nazwisko;
             listav.add(dane);
         }
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listav);
@@ -161,6 +176,42 @@ public class WyszukiwarkaActivity extends AppCompatActivity {
             return "0" + String.valueOf(num);
         else
             return String.valueOf(num);
+    }
+
+    private boolean danyDzien(String data) {
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot sa : dataSnapshot.child("rezerwacja").getChildren()) {
+
+
+                    Rezerwacja rezerwacja = new Rezerwacja(dataSnapshot.child("rezerwacja").child(sa.getKey()).child("id").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("imie").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nazwisko").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("nrTelefonu").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("czas1").getValue().toString(),
+                            dataSnapshot.child("rezerwacja").child(sa.getKey()).child("data1").getValue().toString()
+
+                    );
+
+
+                    lista.add(rezerwacja);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).czas1.equals(data))
+                return true;
+        }
+        return false;
     }
 
 
